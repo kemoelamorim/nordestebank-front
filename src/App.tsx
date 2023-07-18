@@ -1,42 +1,68 @@
-import { GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
-import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
+import { Refine } from "@refinedev/core";
+import { ThemedLayoutV2, ErrorComponent, RefineThemes } from "@refinedev/mui";
+import { CssBaseline, GlobalStyles, ThemeProvider } from "@mui/material";
 
-import { notificationProvider } from "@refinedev/antd";
-import "@refinedev/antd/dist/reset.css";
-
-import routerBindings, {
-  DocumentTitleHandler,
-  UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
 import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ColorModeContextProvider } from "./contexts/color-mode";
+import routerProvider, { DocumentTitleHandler, NavigateToResource, UnsavedChangesNotifier } from "@refinedev/react-router-v6";
 
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { ContaCreate, ContaEdit, ContaList, ContaShow } from 'pages';
+
+
+
+const API_URL = "http://localhost:8080/api";
 function App() {
+  
   return (
-    <BrowserRouter>
-      <GitHubBanner />
-      <RefineKbarProvider>
-        <ColorModeContextProvider>
-          <Refine
-            notificationProvider={notificationProvider}
-            routerProvider={routerBindings}
-            dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-            options={{
-              syncWithLocation: true,
-              warnWhenUnsavedChanges: true,
-            }}
-          >
-            <Routes>
-              <Route index element={<WelcomePage />} />
-            </Routes>
-            <RefineKbar />
-            <UnsavedChangesNotifier />
-            <DocumentTitleHandler />
-          </Refine>
-        </ColorModeContextProvider>
-      </RefineKbarProvider>
-    </BrowserRouter>
+    <div>
+        <ThemeProvider theme={RefineThemes.Blue}>
+            <CssBaseline />
+            <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
+            <BrowserRouter>
+                <Refine
+                    routerProvider={routerProvider}
+                    dataProvider={dataProvider(API_URL)}
+                    resources={[
+                      {
+                        name:"contas",
+                        list: ContaList,
+                        show: ContaShow,
+                        create: ContaCreate,
+                        edit: ContaEdit,
+                      },
+                    ]}
+                    options={{
+                      syncWithLocation: true,
+                      warnWhenUnsavedChanges: true,
+                      reactQuery: {
+                        devtoolConfig: false
+                      }
+                    }}
+                >
+                    <Routes>
+                            <Route
+                                element={
+                                    <ThemedLayoutV2>
+                                        <Outlet />
+                                    </ThemedLayoutV2>
+                                }
+                            >
+                                <Route
+                                    index
+                                    element={
+                                        <NavigateToResource resource="" />
+                                    }
+                                />
+                                <Route path="/contas" element={<ContaList />} />
+                                <Route path="*" element={<ErrorComponent />} />
+                            </Route>
+                        </Routes>
+                        <UnsavedChangesNotifier />
+                        <DocumentTitleHandler />
+                </Refine>
+            </BrowserRouter>
+        </ThemeProvider>
+    </div>
   );
 }
 

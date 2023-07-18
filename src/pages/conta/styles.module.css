@@ -1,0 +1,21 @@
+.root {
+    /* margin-top: valor de marginTop
+    margin-bottom: valor de marginBottom */
+}
+
+.tableContainer {
+    max-height: 500px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    /* margin-top: valor de marginTop; */
+}
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
