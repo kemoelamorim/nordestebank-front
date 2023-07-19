@@ -6,7 +6,9 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, { DocumentTitleHandler, NavigateToResource, UnsavedChangesNotifier } from "@refinedev/react-router-v6";
 
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { ContaCreate, ContaEdit, ContaList, ContaShow } from 'pages';
+import { ContaCreate, ContaEdit, ContaList } from 'pages';
+import { EnderecoEdit } from 'pages/endereco/edit';
+import { EnderecoCreate } from 'pages/endereco/create';
 
 
 
@@ -26,10 +28,9 @@ function App() {
                       {
                         name:"contas",
                         list: ContaList,
-                        show: ContaShow,
                         create: ContaCreate,
                         edit: ContaEdit,
-                      },
+                      }
                     ]}
                     options={{
                       syncWithLocation: true,
@@ -56,7 +57,8 @@ function App() {
                                 <Route path="/contas" element={<ContaList />} />
                                 <Route path="/conta/create" element={<ContaCreate />} />
                                 <Route path="/conta/edit" element={<ContaEdit />} />
-                                <Route path="/conta/show" element={<ContaShow />} />
+                                <Route path="/enderecos/create" element={<EnderecoCreate />} />
+                                <Route path="/enderecos/edit" element={<EnderecoEdit />} />
                                 <Route path="*" element={<ErrorComponent />} />
                             </Route>
                         </Routes>

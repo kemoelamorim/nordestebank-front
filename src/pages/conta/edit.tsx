@@ -24,10 +24,11 @@ import styled from './styles.module.css';
 
 import { ClearOutlined, DeleteFilled, EditFilled, PlusCircleFilled, SearchOutlined } from '@ant-design/icons';
 import { IConta, IEndereco, ITipoConta } from 'interfaces';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const ContaEdit: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate()
   const id = location.state;
   const classes = styled;
   const [loading, setLoading] = useState(true);
@@ -45,6 +46,15 @@ export const ContaEdit: React.FC = () => {
     }));
   };
   
+  
+  const handleEdit = (id: number) => {
+    navigate('/enderecos/edit', { state : id });
+    console.log(`Editar item com ID: ${id}`);
+  };
+  const handleNewEndereco = (id: number) => {
+    navigate('/enderecos/create', { state : id });
+    console.log(`Editar item com ID: ${id}`);
+  };
   
 
   const handleConfirmDelete = async () => {
@@ -88,7 +98,6 @@ export const ContaEdit: React.FC = () => {
     })
       .then(response => {
         if (response.ok) {
-          // Handle success message or redirect if needed
           console.log('Conta atualizada com sucesso!');
         } else {
           // Handle error message
@@ -162,14 +171,13 @@ export const ContaEdit: React.FC = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <FormControl variant="outlined" fullWidth>
-                  <InputLabel id="tipo-conta-label">Tipo de Conta</InputLabel>
+                  <InputLabel id="tipo-conta-label"></InputLabel>
                   <Select
                     labelId="tipo-conta-label"
                     id="tipo-conta-select"
                     name="tipoConta"
                     value={conta?.tipoConta}
                     onChange={handleSelectChange}
-                    label="Tipo de Conta"
                   >
                     <MenuItem value="FISICA">Física</MenuItem>
                     <MenuItem value="JURIDICA">Jurídica</MenuItem>
@@ -179,7 +187,6 @@ export const ContaEdit: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   name="titular"
-                  label={conta?.tipoConta === 'FISICA' ? 'Nome' : 'Razão Social'}
                   value={conta?.titular}
                   onChange={handleInputChange}
                   fullWidth
@@ -189,7 +196,6 @@ export const ContaEdit: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   name="cpfCnpj"
-                  label={conta?.tipoConta === 'FISICA' ? 'CPF' : 'CNPJ'}
                   value={conta?.cpfCnpj}
                   onChange={handleInputChange}
                   fullWidth
@@ -199,7 +205,6 @@ export const ContaEdit: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   name="email"
-                  label="Email"
                   value={conta?.email}
                   onChange={handleInputChange}
                   fullWidth
@@ -209,7 +214,6 @@ export const ContaEdit: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   name="dddTelefone"
-                  label="DDD + Telefone"
                   value={conta?.dddTelefone}
                   onChange={handleInputChange}
                   fullWidth
@@ -219,6 +223,9 @@ export const ContaEdit: React.FC = () => {
               <Grid item xs={12}>
                 <Button variant="contained" color="primary" onClick={handleFormSubmit}>
                   Atualizar
+                </Button>
+                <Button variant="outlined" color="success" onClick={() => handleNewEndereco(id)}>
+                  Novo endereço
                 </Button>
               </Grid>
             </Grid>
@@ -246,7 +253,7 @@ export const ContaEdit: React.FC = () => {
                       <TableCell>{endereco.bairro}</TableCell>
                       <TableCell>{endereco.complemento}</TableCell>
                       <TableCell>
-                        <IconButton aria-label="Edit">
+                        <IconButton aria-label="Edit" onClick={() => handleEdit(endereco.id)}>
                           <EditFilled />
                         </IconButton>
                         <IconButton aria-label="delete" onClick={() => handleDelete(endereco.id)}>
