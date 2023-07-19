@@ -91,7 +91,7 @@ export const ContaList: React.FC = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate('/conta/edit', { state : id });
+    navigate('/endereco/edit', { state : id });
     console.log(`Editar item com ID: ${id}`);
   };
 
