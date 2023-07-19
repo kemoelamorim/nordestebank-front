@@ -6,7 +6,7 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, { DocumentTitleHandler, NavigateToResource, UnsavedChangesNotifier } from "@refinedev/react-router-v6";
 
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { ContaCreate, ContaEdit, ContaList, ContaShow } from 'pages';
+import { ContaCreate, ContaEdit, ContaList, ContaShow, Dashboard } from 'pages';
 
 
 
@@ -23,6 +23,10 @@ function App() {
                     routerProvider={routerProvider}
                     dataProvider={dataProvider(API_URL)}
                     resources={[
+                      {
+                        name: "dashboards",
+                        list: Dashboard
+                      },
                       {
                         name:"contas",
                         list: ContaList,
@@ -50,9 +54,10 @@ function App() {
                                 <Route
                                     index
                                     element={
-                                        <NavigateToResource resource="" />
+                                        <NavigateToResource resource="/" />
                                     }
                                 />
+                                <Route path="/dashboards" element={<Dashboard />} />
                                 <Route path="/contas" element={<ContaList />} />
                                 <Route path="*" element={<ErrorComponent />} />
                             </Route>

@@ -1,12 +1,19 @@
 .root {
-    /* margin-top: valor de marginTop
-    margin-bottom: valor de marginBottom */
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .tableContainer {
     max-height: 500px;
 }
 
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+  
 .pagination {
     display: flex;
     justify-content: center;
