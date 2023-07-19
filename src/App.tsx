@@ -6,7 +6,7 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, { DocumentTitleHandler, NavigateToResource, UnsavedChangesNotifier } from "@refinedev/react-router-v6";
 
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { ContaCreate, ContaEdit, ContaList, ContaShow, Dashboard } from 'pages';
+import { ContaCreate, ContaEdit, ContaList, ContaShow } from 'pages';
 
 
 
@@ -24,10 +24,6 @@ function App() {
                     dataProvider={dataProvider(API_URL)}
                     resources={[
                       {
-                        name: "dashboards",
-                        list: Dashboard
-                      },
-                      {
                         name:"contas",
                         list: ContaList,
                         show: ContaShow,
@@ -43,7 +39,7 @@ function App() {
                       }
                     }}
                 >
-                    <Routes>
+                    <Routes >
                             <Route
                                 element={
                                     <ThemedLayoutV2>
@@ -54,11 +50,13 @@ function App() {
                                 <Route
                                     index
                                     element={
-                                        <NavigateToResource resource="/" />
+                                        <NavigateToResource resource="/contas" />
                                     }
                                 />
-                                <Route path="/dashboards" element={<Dashboard />} />
                                 <Route path="/contas" element={<ContaList />} />
+                                <Route path="/conta/create" element={<ContaCreate />} />
+                                <Route path="/conta/edit" element={<ContaEdit />} />
+                                <Route path="/conta/show" element={<ContaShow />} />
                                 <Route path="*" element={<ErrorComponent />} />
                             </Route>
                         </Routes>

@@ -1,12 +1,12 @@
 export interface IConta {
   id: number,
   titular: string;
-  tipoConta: ITipoConta; 
+  tipoConta: ITipoConta;
   cpfCnpj: string;
   email: string;
   dddTelefone: string;
 }
-export type ITipoConta = "FISICA"|"JURIDICA";
+export type ITipoConta = "FISICA" | "JURIDICA";
 
 export interface IEndereco {
   id: number,
@@ -14,7 +14,7 @@ export interface IEndereco {
   cep: string,
   logradouro: string,
   numero: string,
-  birro: string,
+  bairro: string,
   localidade: string,
   uf: string,
   complemento: string
