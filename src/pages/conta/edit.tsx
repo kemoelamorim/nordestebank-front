@@ -47,20 +47,16 @@ export const ContaEdit: React.FC = () => {
   };
   
   
-  const handleEdit = (id: number) => {
-    navigate('/enderecos/edit', { state : id });
-    console.log(`Editar item com ID: ${id}`);
+  const handleEdit = (idEndereco: number) => {
+    navigate('/enderecos/edit', { state : {idConta: id, idEndereco: idEndereco} });
   };
   const handleNewEndereco = (id: number) => {
     navigate('/enderecos/create', { state : id });
-    console.log(`Editar item com ID: ${id}`);
   };
   
 
   const handleConfirmDelete = async () => {
-    console.log(deletingId)
     setLoading(true);
-    
     try {
       const response = await fetch(`http://localhost:8080/api/enderecos/delete/${deletingId}`, {
         method: 'DELETE',
@@ -87,7 +83,6 @@ export const ContaEdit: React.FC = () => {
   };
 
   const handleFormSubmit = async () => {
-    console.log(conta)
     // POST request to http://localhost:8080/api/contas/update
     await fetch(`http://localhost:8080/api/contas/update`,{
       method: 'PUT',
@@ -140,20 +135,9 @@ export const ContaEdit: React.FC = () => {
     fetchConta();
     fetchEnderecos();
   }, [id]);
-  
-  const renderTipoContaTag = (tipoConta: ITipoConta) => {
-    let tagClassName = `${classes.tag} `;
-    if (tipoConta === 'FISICA') {
-      tagClassName += classes.fisica;
-    } else if (tipoConta === 'JURIDICA') {
-      tagClassName += classes.juridica;
-    }
-
-    return <div className={tagClassName}>{tipoConta}</div>;
-  };
 
   const handleDelete = (id: number) => {
-    console.log("BATEU AQUI")
+
     setDeletingId(id);
     setDeleteModalOpen(true);
   };

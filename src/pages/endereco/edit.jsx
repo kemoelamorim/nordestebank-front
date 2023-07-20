@@ -7,6 +7,14 @@ import {
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
+export interface IConta {
+  id: number,
+  titular: string;
+  tipoConta: ITipoConta;
+  cpfCnpj: string;
+  email: string;
+  dddTelefone: string;
+}
 export interface IEndereco {
   id: number,
   tipoEndereco: ITipoEndereco,
@@ -16,14 +24,16 @@ export interface IEndereco {
   bairro: string,
   localidade: string,
   uf: string,
-  complemento: string
+  complemento: string,
+  conta?: IConta 
 }
 
 export type ITipoEdereco = "RESIDENCIAL" | "COMERCIAL";
 export const EnderecoEdit: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation();
-  const id = location.state
+  const id = location.state.idEndereco
+  const idConta = location.state.idConta
   const [loading, setLoading] = useState(true);
   const [endereco, setEndereco] = useState(null);
 
@@ -54,17 +64,22 @@ export const EnderecoEdit: React.FC = () => {
 
   const handleFormSubmit = async () => {
     // PUT request to http://localhost:8080/api/enderecos/update
+    var conta: IConta = {
+      id: idConta
+    }
+    endereco.conta = conta;
     await fetch(`http://localhost:8080/api/enderecos/update`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(endereco),
+      
+       body: JSON.stringify(endereco),
     })
       .then(response => {
+        
         if (response.ok) {
-          navigate("/conta/edit", {state: id})
-          console.log('Endereço atualizado com sucesso!');
+          navigate("/conta/edit", {state: idConta})
         } else {
           // Handle error message
           console.log('Erro ao atualizar o endereço.');
